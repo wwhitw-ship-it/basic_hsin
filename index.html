@@ -39,18 +39,88 @@
             font-family: 'Inter', system-ui, -apple-system, sans-serif;
         }
 
-        /* Print Specific Styles */
+        /* --- Print Optimization Styles --- */
         @media print {
+            @page {
+                margin: 0.5cm;
+                size: A4 portrait;
+            }
+
+            body {
+                background-color: white !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+                font-size: 12pt; /* Better reading size for print */
+            }
+
+            /* Hide UI elements specifically for printing */
             .no-print {
                 display: none !important;
             }
-            body {
-                -webkit-print-color-adjust: exact;
-                print-color-adjust: exact;
+
+            /* Reset layout constraints for paper */
+            .min-h-screen {
+                min-height: auto !important;
+                padding-bottom: 0 !important;
             }
-            /* Avoid breaking content inside cards */
+            .max-w-4xl {
+                max-width: 100% !important;
+            }
+
+            /* Header adjustments to save space */
+            header {
+                padding-top: 1.5rem !important;
+                padding-bottom: 2rem !important;
+                margin-bottom: 1rem !important;
+                break-inside: avoid;
+                box-shadow: none !important;
+                border-bottom: 2px solid #312e81; /* Indigo-900 */
+            }
+
+            /* Card Styling for Print: Remove shadows, use borders */
+            .bg-white, .bg-slate-50, .bg-slate-900 {
+                box-shadow: none !important;
+                border: 1px solid #e2e8f0 !important; /* Slate-200 */
+            }
+            
+            /* Ensure dark backgrounds print correctly */
+            .bg-slate-900 {
+                background-color: #0f172a !important; /* Force dark color */
+                color: white !important;
+            }
+            .text-white {
+                color: white !important;
+                text-shadow: none !important;
+            }
+
+            /* Prevent awkward page breaks */
             .break-inside-avoid {
-                page-break-inside: avoid;
+                page-break-inside: avoid !important;
+            }
+            
+            /* Textarea: Make it look like plain text */
+            textarea {
+                border: none !important;
+                background: transparent !important;
+                resize: none !important;
+                overflow: hidden !important;
+                padding: 0 !important;
+                min-height: auto !important;
+            }
+            
+            /* Fix Grid Layouts */
+            .grid {
+                display: grid !important;
+            }
+            
+            /* Ensure text contrast */
+            p, span, div {
+                color: #1e293b !important; /* Slate-800 */
+            }
+            /* Exception for light text on dark backgrounds */
+            .bg-indigo-900 p, .bg-indigo-900 span, .bg-indigo-900 h1,
+            .bg-slate-900 p, .bg-slate-900 span, .bg-slate-900 h2, .bg-slate-900 h3, .bg-slate-900 div {
+                color: white !important;
             }
         }
     </style>
@@ -69,7 +139,6 @@
             return <i data-lucide={name} className={className} width={size} height={size} {...props}></i>;
         };
 
-        // Added FileDown for the PDF button
         const Icons = {
             Calendar: (props) => <Icon name="calendar" {...props} />,
             CheckCircle2: (props) => <Icon name="check-circle-2" {...props} />,
@@ -126,7 +195,7 @@
             const dates = Array.from({ length: daysInMonth }, (_, i) => i + 1);
 
             return (
-                <div className="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm">
+                <div className="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm break-inside-avoid">
                 <div className="flex justify-between items-center mb-4">
                     <h4 className="font-bold text-slate-800 text-lg">{monthName} <span className="text-slate-400 text-sm ml-1">{year}</span></h4>
                 </div>
@@ -751,12 +820,12 @@
                         <div>
                             <p className="text-xs font-bold text-indigo-600 uppercase mb-3 flex items-center">
                             <span className="w-2 h-2 rounded-full bg-indigo-600 mr-2"></span>
-                            第一區段 (2025)
+                            第一區段 (2026)
                             </p>
                             <CalendarWidget 
                             monthName="June" 
-                            year="2025" 
-                            startDay={0} // Sunday
+                            year="2026" 
+                            startDay={1} // Monday
                             daysInMonth={30} 
                             availableDates={[12, 15]} 
                             selectedDates={selectedDates}
@@ -768,12 +837,12 @@
                         <div>
                             <p className="text-xs font-bold text-indigo-600 uppercase mb-3 flex items-center">
                             <span className="w-2 h-2 rounded-full bg-indigo-600 mr-2"></span>
-                            第二區段 (2025)
+                            第二區段 (2026)
                             </p>
                             <CalendarWidget 
                             monthName="October" 
-                            year="2025" 
-                            startDay={3} // Wednesday
+                            year="2026" 
+                            startDay={4} // Thursday
                             daysInMonth={31} 
                             availableDates={[27, 28]} 
                             selectedDates={selectedDates}
@@ -870,4 +939,4 @@
         root.render(<ClientGuideApp />);
     </script>
 </body>
-</html>
+</html>"
